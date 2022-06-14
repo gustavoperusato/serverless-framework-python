@@ -1,0 +1,79 @@
+service: sls-package-python
+
+provider:
+  name: aws
+  runtime: python3.8
+  #profile: hackathon
+  region: us-east-1
+  stage: dev
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:ListBucket
+          Resource: "arn:aws:s3:::${self:functions.extractMetadata.events.0.s3.bucket}/*"
+          #          arn:aws:s3:::BUCKET_NAME/*
+
+
+functions:
+  extractMetadata:
+    handler: handler.extractMetadata
+    description: This function extracts the metadata from images bucket
+    memorySize: 128
+    timeout: 30
+    events:
+      - s3:
+          bucket: store-imgs-gp #  Escolha o nome do seu bucket que deve ser único
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploads/
+            #- suffix: .jpg
+
+  getMetadata:
+    handler: handler.getMetadata
+    description: This function gets metadata from the dynamodb table
+    memorySize: 128
+    timeout: 30
+    events:
+      - http:
+          path: images/{s3objectkey}
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    ImagesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: s3objectkey
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: s3objectkey
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux

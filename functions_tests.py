@@ -1,0 +1,5 @@
+from handler import extractMetadata
+
+event = {'Records': [{'eventVersion': '2.1', 'eventSource': 'aws:s3', 'awsRegion': 'us-east-1', 'eventTime': '2022-06-14T20:03:29.534Z', 'eventName': 'ObjectCreated:Put', 'userIdentity': {'principalId': 'A1WTN8XM4JBM8M'}, 'requestParameters': {'sourceIPAddress': '179.127.139.161'}, 'responseElements': {'x-amz-request-id': 'AJY91KK4PWPG718V', 'x-amz-id-2': '5Asc13O/+0xRGjhjCWeqo/2rTZDt3MVMYQmk/CmoscCent25z/RS+e+jGbXB79t3G9EBM0wp3jkPKU1No/0MAyg/S+o8oCwM'}, 's3': {'s3SchemaVersion': '1.0', 'configurationId': '3b339575-bca2-4bfd-9af1-22c10bd34720', 'bucket': {'name': 'store-imgs-gp', 'ownerIdentity': {'principalId': 'A1WTN8XM4JBM8M'}, 'arn': 'arn:aws:s3:::store-imgs-gp'}, 'object': {'key': 'uploads/upload+em+grupo+14.06.17.02+%281%29.png', 'size': 141030, 'eTag': 'a35199e15b3c150c38196e7f2beb0648', 'sequencer': '0062A8E9916ED8CED0'}}}]}
+
+extractMetadata(event,'context')
