@@ -25,8 +25,6 @@ provider:
             - s3:GetObject
             - s3:ListBucket
           Resource: "arn:aws:s3:::${self:functions.extractMetadata.events.0.s3.bucket}/*"
-          #          arn:aws:s3:::BUCKET_NAME/*
-
 
 functions:
   extractMetadata:
@@ -36,11 +34,10 @@ functions:
     timeout: 30
     events:
       - s3:
-          bucket: store-imgs-gp #  Escolha o nome do seu bucket que deve ser único
+          bucket: store-imgs-gp
           event: s3:ObjectCreated:*
           rules:
             - prefix: uploads/
-            #- suffix: .jpg
 
   getMetadata:
     handler: handler.getMetadata
@@ -77,3 +74,8 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: non-linux
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
