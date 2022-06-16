@@ -34,11 +34,7 @@
   <hr></hr>
 
 <h3>Alterações <i>serverless.yml</i></h3>
-<p>Abaixo estão comentadas as alterações a serem feitas no arquivo <b><i>serverless.yml</b></i></p>
-  
-  ![image](https://user-images.githubusercontent.com/96849188/173989403-7d6634cc-0929-4994-ae34-c08e7d4ee268.png)
-  ![image](https://user-images.githubusercontent.com/96849188/173989470-a7010962-6ebd-4365-9e63-f36298017c61.png)
-  ![image](https://user-images.githubusercontent.com/96849188/174170909-90252d8d-d91c-49bc-9b3c-b57a4eee0ef9.png) 
+<p>As alterações a serem feitas no arquivo <b><i>serverless.yml</b></i> estão comentadas no arquivo <b><i>serverless_withcomments.yml</b></i>o</p>
   
 <hr></hr>
 
