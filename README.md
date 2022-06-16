@@ -33,12 +33,12 @@
 
   <hr></hr>
 
-<h3>Alterações <i>serverless.yml</i></h3>
-<p>As alterações a serem feitas no arquivo <b><i>serverless.yml</b></i> estão comentadas no arquivo <b><i>serverless_withcomments.yml</b></i>o</p>
+<h3>Alterações <i>serverless.yml</i>:</h3>
+<p>As alterações a serem feitas no arquivo <b><i>serverless.yml</b></i> estão comentadas no arquivo <b><i>serverless_withcomments.yml</b></i>.</p>
   
 <hr></hr>
 
-<h3> Observações </h3>
+<h3> Observações: </h3>
 
   <p> As documentações de cada função encontram-se nos arquivos <b></i>handler.py</b></i>, <b><i>getImagev1.py</b></i>, <b><i>getImagev2.py</b></i> e <b><i>infoImages.py</b></i> e podem ser consultadas chamando a função python nativa <b><i>help(function)</b></i>.</p>
   
