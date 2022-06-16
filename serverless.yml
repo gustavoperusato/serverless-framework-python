@@ -2,13 +2,13 @@ service: sls-package-python
 
 provider:
   name: aws
-  runtime: python3.8
+  runtime: python3.8  ## Alterado de node para python
   #profile: hackathon
   region: us-east-1
   stage: dev
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-  iam:
+  iam: ## Atualizado permissões conforme padrão mais recente
     role:
       statements:
         - Effect: Allow
@@ -20,7 +20,7 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
-        - Effect: Allow
+        - Effect: Allow  ## Adicionado permissão para acesso ao s3 para a função extractMetadata()
           Action:
             - s3:GetObject
             - s3:ListBucket
@@ -29,7 +29,7 @@ provider:
 functions:
   extractMetadata:
     handler: handler.extractMetadata
-    description: This function extracts the metadata from images bucket
+    description: This function extracts the metadata from images bucket ## Adicionado descrição
     memorySize: 128
     timeout: 30
     events:
@@ -37,12 +37,12 @@ functions:
           bucket: store-imgs-gp
           event: s3:ObjectCreated:*
           rules:
-            - prefix: uploads/
+            - prefix: uploads/  ## (Opcional) Retirado "suffix: .jpg" para suportar outros formatos de img 
 
   getMetadata:
     handler: handler.getMetadata
     description: This function gets metadata from the dynamodb table
-    memorySize: 128
+    memorySize: 128 ## Adicionado descrição
     timeout: 30
     events:
       - http:
@@ -70,12 +70,17 @@ resources:
 
 plugins:
   - serverless-python-requirements
+  ## Adicionado plugin para empacotar libs necessárias ao código Python
+  ## Esta linha de código é adicionada automaticamente ao executar o comando de
+  ## instalação do plugin
 
 custom:
   pythonRequirements:
     dockerizePip: non-linux
+     ## Adicionado parâmetro para o plugin relatado acima
 
 package:
   exclude:
     - node_modules/**
     - venv/**
+    ## Adicionado parametro para não subir os pacotes Node, evitando extrapolar o limite do deploy
